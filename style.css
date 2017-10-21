@@ -1,0 +1,21 @@
+div.practice-textarea {
+	float: left;
+	width: 20em;
+	height: 48ex;
+	border: 2px solid black;
+	padding: 20px;
+	margin: 20px;
+}
+
+textarea.practice-input {
+}
+
+.hide {
+	width: 0;
+	overflow: hidden;
+}
+
+.composing {
+	background-color: black;
+	color: white;
+}

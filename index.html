@@ -1,0 +1,30 @@
+<html>
+<head>
+	<script type="text/javascript">
+		Ko_type = "3-91";  // 한글 자판 (두벌식 표준)
+		En_type = "QWERTY";  // 영문 자판 (쿼티)
+		ohi_KBD_type = "QWERTY";  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
+		ohi_KE = "Ko";  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
+	</script>
+	<script src="additional_layouts.js"> </script>
+	<script src="ohi.js"> </script>
+	
+	<script src="taja.js"></script>
+	
+	<link rel="stylesheet" href="style.css">
+	
+</head>
+<body>
+	<div class="container">
+		<h2 class="title">타자 연습</h2>
+		<div class="practice">
+			<div class="practice-textarea practice-preview", id="practice-preview"></div>
+			<div class="practice-textarea practice-typing", id="practice-typing"></div>
+			<div class="hide">
+				<textarea class="practice-input" id="practice-input" autofocus></textarea>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>
