@@ -3,11 +3,14 @@ var input;
 
 var pageText, composingText;
 
+var practiceText;
+
 function escapeHTML(s) { 
   return s.replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>');
 }
 
 const tajaKeydown = function(e) {
@@ -34,6 +37,35 @@ const tajaLoad = function() {
   
   focusOut();
   
+  practiceText = "동해물과 백두산이 마르고 닳도록\n하느님이 보우하사 우리나라 만세\n무궁화 삼천리 화려강산\n대한사람 대한으로 길이 보전하세";
+  
+  updatePracticeText();
+  
+}
+
+const updatePracticeText = function() {
+  var txt = '';
+  var stat = 'n';
+  var i;
+  for(i = 0 ; i < practiceText.length ; i++) {
+    var c = practiceText.charAt(i);
+    if(i >= pageText.length) break;
+    var d = pageText.charAt(i);
+    if(c == d) {
+      if(stat == 'x') txt += '</span><span class="correct">';
+      if(stat == 'n') txt += '<span class="correct">';
+      stat = 'o';
+      txt += escapeHTML(c);
+    } else {
+      if(stat == 'o') txt += '</span><span class="incorrect">';
+      if(stat == 'n') txt += '<span class="incorrect">';
+      stat = 'x';
+      txt += escapeHTML(c);
+    }
+  }
+  if(stat != 'n') txt += '</span>';
+  txt += escapeHTML(practiceText.substring(i));
+  document.getElementById("practice-preview").innerHTML = txt;
 }
 
 const focusOut = function() {
@@ -50,10 +82,10 @@ const resetInput = function() {
 }
 
 const updateInput = function() {
-  document.getElementById("practice-typing").innerHTML = escapeHTML(pageText)
+  document.getElementById("practice-typing").innerHTML
+    = escapeHTML(pageText)
     + ((composingText.length == 0) ? '|'
     : '<span class="composing">' + escapeHTML(composingText) + '</span>');
-  
 }
 
 const textInput = function(e) {
@@ -90,6 +122,7 @@ const textInput = function(e) {
     }
   }
   updateInput();
+  updatePracticeText();
 }
 
 const backspace = function() {

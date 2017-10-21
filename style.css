@@ -7,6 +7,13 @@ div.practice-textarea {
 	margin: 20px;
 }
 
+.correct {
+	background-color: #98ee99;
+}
+.incorrect {
+	background-color: #ff867c;
+}
+
 textarea.practice-input {
 }
 
