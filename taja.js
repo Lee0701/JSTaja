@@ -1,6 +1,7 @@
 
 var input;
 
+var ignoreEnter = false;
 var pageText, composingText;
 
 var practiceText;
@@ -99,8 +100,17 @@ const textInput = function(e) {
     updateInput();
     return;
   }
-  if(input.value.substring(input.value.length-1) == "\n") {
-    console.log("enter");
+  if(input.value.substring(input.value.length-1) == "\n" && !ignoreEnter) {
+    commit();
+    commit("\n");
+    resetInput();
+    updateInput();
+    updatePracticeText();
+    ignoreEnter = true;
+    return;
+  }
+  if(ignoreEnter) {
+    ignoreEnter = false;
     resetInput();
     updateInput();
     return;
@@ -121,6 +131,7 @@ const textInput = function(e) {
       resetInput();
     }
   }
+  ignoreEnter = false;
   updateInput();
   updatePracticeText();
 }
@@ -134,7 +145,7 @@ const compose = function(composing) {
 }
 
 const commit = function(committed) {
-  if(commit == undefined) return commit(composingText);
+  if(committed == undefined) return commit(composingText);
   composingText = '';
   pageText += committed;
 }
