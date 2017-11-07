@@ -1,10 +1,19 @@
+
+div.practice {
+	display: flex;
+}
+
 div.practice-textarea {
-	float: left;
 	width: 20em;
 	height: 48ex;
 	border: 2px solid black;
 	padding: 20px;
 	margin: 20px;
+	line-height: 200%;
+}
+
+div.practice-info {
+	padding: 20px;
 }
 
 .correct {

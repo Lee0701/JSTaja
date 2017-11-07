@@ -80,6 +80,9 @@ const onNextLine = function() {
   const anchr = getEditDistance('', practiceText[currentLine-1]);
   const accuracy = 100 - (distance / anchr * 100);
   console.log("spd " + speed + ", accr " + accuracy);
+  
+  document.getElementById("practice-info").innerHTML = "이전 줄 속도: " + speed + ", 이전 줄 정확도: " + accuracy;
+  
 }
 
 const tajaLoad = function() {
@@ -112,11 +115,11 @@ const loadText = function(txt) {
   pageText = [];
   composingText = '';
   currentLine = 0;
+  pageText[currentLine] = '';
   
   focusOut();
   
   practiceText = txt.replace(/\r/g, '').split("\n");
-  pageText[currentLine] = '';
   
   updatePracticeText();
   
@@ -132,7 +135,10 @@ const updatePracticeText = function() {
   var txt = '';
   var stat = 'n';
   var i, j;
+  var lines = 0;
   for(j = 0 ; j < practiceText.length ; j++) {
+    if(j < currentLine-5) continue;
+    if(lines > 12) break;
     for(i = 0 ; i < practiceText[j].length ; i++) {
       var c = practiceText[j].charAt(i);
       if(j > currentLine) break;
@@ -156,6 +162,7 @@ const updatePracticeText = function() {
     }
     txt += escapeHTML(practiceText[j].substring(i));
     txt += "<br>";
+    lines++;
   }
   document.getElementById("practice-preview").innerHTML = txt;
 }
@@ -174,10 +181,17 @@ const resetInput = function() {
 }
 
 const updateInput = function() {
-  document.getElementById("practice-typing").innerHTML
-    = escapeHTML(pageText.join("\n"))
-    + ((composingText.length == 0) ? '|'
-    : '<span class="composing">' + escapeHTML(composingText) + '</span>');
+  const typing = document.getElementById("practice-typing");
+  typing.innerHTML = '';
+  var lines = 0;
+  for(var j = 0 ; j < pageText.length ; j++) {
+    if(j < currentLine-5) continue;
+    if(lines > 12) break;
+    typing.innerHTML += escapeHTML(pageText[j]);
+    if(j == currentLine) typing.innerHTML += ((composingText.length == 0) ? '|' : '<span class="composing">' + escapeHTML(composingText) + '</span>');
+    typing.innerHTML += '<br>';
+    lines++;
+  }
 }
 
 const textInput = function(e) {
