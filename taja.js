@@ -7,6 +7,8 @@ var ignoreEnter = false;
 var pageText, composingText;
 var currentLine;
 
+var speeds, accuracies;
+
 var practiceText;
 
 var startTime;
@@ -74,13 +76,24 @@ const tajaKeypress = function(e) {
 }
 
 const onNextLine = function() {
-  const speed = getSpeed(startTime, new Date().getTime(), pageText[currentLine-1]);
-  startTime = undefined;
-  const distance = getEditDistance(pageText[currentLine-1], practiceText[currentLine-1]);
-  const anchr = getEditDistance('', practiceText[currentLine-1]);
+  const beforeLine = currentLine-1;
+  const speed = getSpeed(startTime, new Date().getTime(), pageText[beforeLine]);
+  startTime = new Date().getTime();
+  const distance = getEditDistance(pageText[beforeLine], practiceText[beforeLine]);
+  const anchr = getEditDistance('', practiceText[beforeLine]);
   const accuracy = 100 - (distance / anchr * 100);
   
-  document.getElementById("practice-info").innerHTML = "이전 줄 속도: " + speed + ", 이전 줄 정확도: " + accuracy;
+  speeds[beforeLine] = speed;
+  accuracies[beforeLine] = accuracy;
+  
+  document.getElementById("practice-info").innerHTML = "이전 줄 속도: " + speed.toFixed(2) + ", 이전 줄 정확도: " + accuracy.toFixed(2);
+  
+  if(!practiceText[currentLine]) {
+    const add = function(a, b) {return a + b;};
+    const speedAvg = speeds.reduce(add, 0) / speeds.length;
+    const accuracyAvg = accuracies.reduce(add, 0) / accuracies.length;
+    alert("평균 속도: " + speedAvg.toFixed(2) + ", 평균 정확도: " + accuracyAvg.toFixed(2));
+  }
   
 }
 
@@ -116,6 +129,9 @@ const loadText = function(txt) {
   composingText = '';
   currentLine = 0;
   pageText[currentLine] = '';
+  
+  speeds = [];
+  accuracies = [];
   
   focusOut();
   
