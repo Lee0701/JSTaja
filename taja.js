@@ -78,7 +78,7 @@ const tajaKeypress = function(e) {
 const onNextLine = function() {
   const beforeLine = currentLine-1;
   const speed = getSpeed(startTime, new Date().getTime(), pageText[beforeLine]);
-  startTime = new Date().getTime();
+  startTime = longText ? new Date().getTime() : undefined;
   const distance = getEditDistance(pageText[beforeLine], practiceText[beforeLine]);
   const anchr = getEditDistance('', practiceText[beforeLine]);
   const accuracy = 100 - (distance / anchr * 100);
@@ -262,6 +262,7 @@ const textInput = function(e) {
 
 const backspace = function() {
   pageText[currentLine] = pageText[currentLine].substring(0, pageText[currentLine].length - 1);
+  if(!longText && pageText[currentLine] == '') startTime = undefined;
 }
 
 const compose = function(composing) {
