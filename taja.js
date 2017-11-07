@@ -135,7 +135,14 @@ const loadText = function(txt) {
   
   focusOut();
   
-  practiceText = txt.replace(/\r/g, '').split("\n");
+  practiceText = [];
+  txt = txt.replace(/\r/g, '').split("\n");
+  for(var i in txt) {
+    const lines = txt[i].match(/.{1,20}/g);
+    for(var j in lines) {
+      practiceText.push(lines[j].trim());
+    }
+  }
   
   updatePracticeText();
   
@@ -220,6 +227,12 @@ const textInput = function(e) {
     resetInput();
     updateInput();
     return;
+  }
+  const overflow = spacedEnd && pageText[currentLine].length > practiceText[currentLine].length || !spacedEnd && pageText[currentLine].length >= practiceText[currentLine].length;
+  if(overflow) {
+    currentLine++;
+    pageText[currentLine] = '';
+    onNextLine();
   }
   if(input.value.substring(input.value.length-1) == "\n" && !ignoreEnter) {
     commit(composingText);
