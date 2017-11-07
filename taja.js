@@ -9,6 +9,13 @@ var practiceText;
 
 var startTime;
 
+const getSpeed = function(start, end, txt, ignoreSpace=false) {
+  const time = end - start;
+  const normalized = ignoreSpace ? txt.normalize("NFD").replace(' ', '') : txt.normalize("NFD");
+  const length = normalized.length;
+  return (normalized.length * 60000) / time;
+}
+
 function escapeHTML(s) { 
   return s.replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
@@ -27,6 +34,12 @@ const tajaKeyup = function(e) {
 
 const tajaKeypress = function(e) {
   
+}
+
+const onNextLine = function() {
+  const speed = getSpeed(startTime, new Date().getTime(), pageText[currentLine-1]);
+  startTime = undefined;
+  console.log(speed);
 }
 
 const tajaLoad = function() {
@@ -120,6 +133,7 @@ const textInput = function(e) {
     commit(composingText);
     currentLine++;
     pageText[currentLine] = '';
+    onNextLine();
     resetInput();
     updateInput();
     updatePracticeText();
