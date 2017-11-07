@@ -93,6 +93,7 @@ const tajaLoad = function() {
   input.addEventListener("keyup", textInput);
   
   httpRequest = new XMLHttpRequest();
+  
 }
 
 const loadWebText = function(url) {
@@ -256,8 +257,27 @@ const commit = function(committed) {
   pageText[currentLine] += committed;
 }
 
+const settingsLoad = function() {
+  const layoutSelect = document.getElementById("layout-select");
+  for(var i in basic_layouts) {
+    const layout = basic_layouts[i];
+    if(layout.KE != "Ko") continue;
+    const item = document.createElement("option");
+    item.value = layout.type_name;
+    item.innerText = layout.full_name;
+    layoutSelect.appendChild(item);
+  }
+  if(typeof(Storage) !== "undefined") {
+    layoutSelect.value = localStorage.getItem("taja_layout");
+  }
+}
+
+const changeLayout = function() {
+  if(typeof(Storage) !== "undefined") {
+    localStorage.setItem("taja_layout", document.getElementById("layout-select").value);
+  }
+}
+
 document.addEventListener('keydown', tajaKeydown, false);
 document.addEventListener('keyup', tajaKeyup, false);
 document.addEventListener('keypress', tajaKeypress, false);
-
-window.addEventListener('load', tajaLoad);
