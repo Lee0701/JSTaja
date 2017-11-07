@@ -86,15 +86,18 @@ const onNextLine = function() {
   speeds[beforeLine] = speed;
   accuracies[beforeLine] = accuracy;
   
-  document.getElementById("practice-info").innerHTML = "이전 줄 속도: " + speed.toFixed(2) + ", 이전 줄 정확도: " + accuracy.toFixed(2);
+  const add = function(a, b) {return a + b;};
+  const speedAvg = speeds.reduce(add, 0) / speeds.length;
+  const accuracyAvg = accuracies.reduce(add, 0) / accuracies.length;
+  
+  document.getElementById("practice-info").innerHTML = longText
+    ? "평균 속도: " + speedAvg.toFixed(2) + ", 평균 정확도: " + accuracyAvg.toFixed(2)
+    : "이전 줄 속도: " + speed.toFixed(2) + ", 이전 줄 정확도: " + accuracy.toFixed(2);
   
   if(!practiceText[currentLine]) {
-    const add = function(a, b) {return a + b;};
-    const speedAvg = speeds.reduce(add, 0) / speeds.length;
-    const accuracyAvg = accuracies.reduce(add, 0) / accuracies.length;
     alert("평균 속도: " + speedAvg.toFixed(2) + ", 평균 정확도: " + accuracyAvg.toFixed(2));
+    location.href = "index.html";
   }
-  
 }
 
 const tajaLoad = function() {
