@@ -79,7 +79,6 @@ const onNextLine = function() {
   const distance = getEditDistance(pageText[currentLine-1], practiceText[currentLine-1]);
   const anchr = getEditDistance('', practiceText[currentLine-1]);
   const accuracy = 100 - (distance / anchr * 100);
-  console.log("spd " + speed + ", accr " + accuracy);
   
   document.getElementById("practice-info").innerHTML = "이전 줄 속도: " + speed + ", 이전 줄 정확도: " + accuracy;
   
