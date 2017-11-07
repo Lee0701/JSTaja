@@ -1,4 +1,6 @@
 
+var httpRequest;
+
 var input;
 
 var ignoreEnter = false;
@@ -11,9 +13,44 @@ var startTime;
 
 const getSpeed = function(start, end, txt, ignoreSpace=false) {
   const time = end - start;
-  const normalized = ignoreSpace ? txt.normalize("NFD").replace(' ', '') : txt.normalize("NFD");
+  const normalized = ignoreSpace ? txt.normalize("NFD").replace(/ /g, '') : txt.normalize("NFD");
   const length = normalized.length;
   return (normalized.length * 60000) / time;
+}
+
+const getEditDistance = function(a, b) {
+  a = a.normalize('NFD');
+  b = b.normalize ('NFD');
+  var dist = [];
+  const max = Math.max(a.length, b.length);
+  for(var i = 0 ; i <= max ; i++) {
+    dist[i] = [];
+    for(var j = 0 ; j <= max ; j++) {
+      dist[i][j] = 0;
+    }
+  }
+  for(var i = 1 ; i <= a.length ; i++) {
+    dist[i][0] = i;
+  }
+  for(var j = 1 ; j <= b.length ; j++) {
+    dist[0][j] = j;
+  }
+  for(var i = 1 ; i <= a.length ; i++) {
+    for(var j = 1 ; j <= b.length ; j++) {
+      if(a.charAt(i-1) == b.charAt(j-1)) dist[i][j] = dist[i-1][j-1];
+      else dist[i][j] = Math.min(dist[i-1][j-1]+1, Math.min(dist[i][j-1]+1, dist[i-1][j]+1));
+    }
+  }
+  /*
+  for(var j = 0 ; j <= b.length ; j++) {
+    var str = '';
+    for(var i = 0 ; i <= a.length ; i++) {
+      str += dist[i][j] + "\t";
+    }
+    console.log(str + "\n");
+  }
+  */
+  return dist[a.length][b.length];
 }
 
 function escapeHTML(s) { 
@@ -39,7 +76,10 @@ const tajaKeypress = function(e) {
 const onNextLine = function() {
   const speed = getSpeed(startTime, new Date().getTime(), pageText[currentLine-1]);
   startTime = undefined;
-  console.log(speed);
+  const distance = getEditDistance(pageText[currentLine-1], practiceText[currentLine-1]);
+  const anchr = getEditDistance('', practiceText[currentLine-1]);
+  const accuracy = 100 - (distance / anchr * 100);
+  console.log("spd " + speed + ", accr " + accuracy);
 }
 
 const tajaLoad = function() {
@@ -50,19 +90,41 @@ const tajaLoad = function() {
   input.addEventListener("keydown", textInput);
   input.addEventListener("keyup", textInput);
   
+  httpRequest = new XMLHttpRequest();
 }
 
-const textLoad = function() {
+const loadWebText = function(url) {
+  
+  httpRequest.onreadystatechange = function() {
+    if(httpRequest.readyState == 4) {
+      if(httpRequest.status == 200) {
+        loadText(httpRequest.responseText);
+      } else {
+        alert("연습글을 가져오는데 문제가 발생했습니다.");
+      }
+    }
+  }
+  httpRequest.open('GET', url, true);
+  httpRequest.send(null);
+}
+
+const loadText = function(txt) {
   pageText = [];
   composingText = '';
   currentLine = 0;
   
   focusOut();
   
-  practiceText = "동해물과 백두산이 마르고 닳도록\n하느님이 보우하사 우리나라 만세\n무궁화 삼천리 화려강산\n대한사람 대한으로 길이 보전하세".split("\n");
+  practiceText = txt.replace(/\r/g, '').split("\n");
   pageText[currentLine] = '';
   
   updatePracticeText();
+  
+}
+
+const textLoad = function() {
+  
+  loadWebText('texts/aegukga.txt');
   
 }
 
