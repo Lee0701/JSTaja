@@ -3,8 +3,11 @@ var input;
 
 var ignoreEnter = false;
 var pageText, composingText;
+var currentLine;
 
 var practiceText;
+
+var startTime;
 
 function escapeHTML(s) { 
   return s.replace(/&/g, '&amp;')
@@ -34,14 +37,17 @@ const tajaLoad = function() {
   input.addEventListener("keydown", textInput);
   input.addEventListener("keyup", textInput);
   
-  focusOut();
-  
 }
 
 const textLoad = function() {
-  pageText = composingText = '';
+  pageText = [];
+  composingText = '';
+  currentLine = 0;
   
-  practiceText = "동해물과 백두산이 마르고 닳도록\n하느님이 보우하사 우리나라 만세\n무궁화 삼천리 화려강산\n대한사람 대한으로 길이 보전하세";
+  focusOut();
+  
+  practiceText = "동해물과 백두산이 마르고 닳도록\n하느님이 보우하사 우리나라 만세\n무궁화 삼천리 화려강산\n대한사람 대한으로 길이 보전하세".split("\n");
+  pageText[currentLine] = '';
   
   updatePracticeText();
   
@@ -50,25 +56,32 @@ const textLoad = function() {
 const updatePracticeText = function() {
   var txt = '';
   var stat = 'n';
-  var i;
-  for(i = 0 ; i < practiceText.length ; i++) {
-    var c = practiceText.charAt(i);
-    if(i >= pageText.length) break;
-    var d = pageText.charAt(i);
-    if(c == d) {
-      if(stat == 'x') txt += '</span><span class="correct">';
-      if(stat == 'n') txt += '<span class="correct">';
-      stat = 'o';
-      txt += escapeHTML(c);
-    } else {
-      if(stat == 'o') txt += '</span><span class="incorrect">';
-      if(stat == 'n') txt += '<span class="incorrect">';
-      stat = 'x';
-      txt += escapeHTML(c);
+  var i, j;
+  for(j = 0 ; j < practiceText.length ; j++) {
+    for(i = 0 ; i < practiceText[j].length ; i++) {
+      var c = practiceText[j].charAt(i);
+      if(j > currentLine) break;
+      if(i >= pageText[j].length) break;
+      var d = pageText[j].charAt(i);
+      if(c == d) {
+        if(stat == 'x') txt += '</span><span class="correct">';
+        if(stat == 'n') txt += '<span class="correct">';
+        stat = 'o';
+        txt += escapeHTML(c);
+      } else {
+        if(stat == 'o') txt += '</span><span class="incorrect">';
+        if(stat == 'n') txt += '<span class="incorrect">';
+        stat = 'x';
+        txt += escapeHTML(c);
+      }
     }
+    if(stat != 'n') {
+      txt += '</span>';
+      stat = 'n';
+    }
+    txt += escapeHTML(practiceText[j].substring(i));
+    txt += "<br>";
   }
-  if(stat != 'n') txt += '</span>';
-  txt += escapeHTML(practiceText.substring(i));
   document.getElementById("practice-preview").innerHTML = txt;
 }
 
@@ -87,7 +100,7 @@ const resetInput = function() {
 
 const updateInput = function() {
   document.getElementById("practice-typing").innerHTML
-    = escapeHTML(pageText)
+    = escapeHTML(pageText.join("\n"))
     + ((composingText.length == 0) ? '|'
     : '<span class="composing">' + escapeHTML(composingText) + '</span>');
 }
@@ -104,8 +117,9 @@ const textInput = function(e) {
     return;
   }
   if(input.value.substring(input.value.length-1) == "\n" && !ignoreEnter) {
-    commit();
-    commit("\n");
+    commit(composingText);
+    currentLine++;
+    pageText[currentLine] = '';
     resetInput();
     updateInput();
     updatePracticeText();
@@ -134,13 +148,14 @@ const textInput = function(e) {
       resetInput();
     }
   }
+  if(startTime == undefined) startTime = new Date().getTime();
   ignoreEnter = false;
   updateInput();
   updatePracticeText();
 }
 
 const backspace = function() {
-  pageText = pageText.substring(0, pageText.length - 1);
+  pageText[currentLine] = pageText[currentLine].substring(0, pageText[currentLine].length - 1);
 }
 
 const compose = function(composing) {
@@ -148,9 +163,8 @@ const compose = function(composing) {
 }
 
 const commit = function(committed) {
-  if(committed == undefined) return commit(composingText);
   composingText = '';
-  pageText += committed;
+  pageText[currentLine] += committed;
 }
 
 document.addEventListener('keydown', tajaKeydown, false);
