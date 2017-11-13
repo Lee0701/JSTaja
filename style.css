@@ -46,12 +46,17 @@ div.chars {
 }
 
 div.chars-char {
-	font-size: 20pt;
+	font-size: 30pt;
 }
 
 #current-char {
-	font-size: 30pt;
+	font-size: 50pt;
 	font-weight: bold;
+}
+
+#next-chars {
+	margin-left: 20px;
+	letter-spacing: 10px;
 }
 
 .keyboard {

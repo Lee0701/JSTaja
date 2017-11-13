@@ -97,8 +97,14 @@ const layoutKeyPress = function(e) {
 
 const nextChar = function() {
   // Temporary code : random chosung
-  currentChar = 0x1100 + Math.round(Math.random()*0x12);
+  currentChar = nextChars.shift();
+  nextChars.push(getNextChar());
   document.getElementById("current-char").innerHTML = String.fromCharCode(currentChar);
+  document.getElementById("next-chars").innerHTML = String.fromCharCode.apply(null, nextChars);
+}
+
+const getNextChar = function() {
+  return 0x1100 + Math.round(Math.random()*0x12);
 }
 
 const onNextLine = function() {
@@ -195,6 +201,9 @@ const layoutLoad = function() {
     if(key == undefined) continue;
     key.innerHTML = String.fromCharCode(currentLayout.layout[i]);
   }
+  
+  nextChars = [];
+  for(var i = 0 ; i < 4 ; i++) nextChars[i] = getNextChar();
   
   nextChar();
   
