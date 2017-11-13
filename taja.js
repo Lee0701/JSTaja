@@ -212,8 +212,8 @@ const layoutLoad = function() {
     key.innerHTML = String.fromCharCode(currentLayout.layout[i]);
   }
   
-  currentLevel = 7;
-  containLowerLevels = true;
+  currentLevel = 1;
+  containLowerLevels = false;
   
   nextChars = [];
   for(var i = 0 ; i < 4 ; i++) nextChars[i] = getNextChar();
@@ -478,5 +478,5 @@ const layoutLevels = [
 
 const changeLevel = function() {
   currentLevel = document.getElementById("level-select").value;
-  containLowerLevels = document.getElementById("contain-lower-levels").value;
+  containLowerLevels = document.getElementById("contain-lower-levels").checked;
 }
