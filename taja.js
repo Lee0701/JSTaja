@@ -1,6 +1,8 @@
 
 var httpRequest;
 
+// Long/Short Text Practice
+
 var input;
 
 var ignoreEnter = false;
@@ -12,6 +14,15 @@ var speeds, accuracies;
 var practiceText;
 
 var startTime;
+
+// Layout Practice
+
+var currentChar;
+var nextChars;
+
+var currentLayout;
+
+//
 
 const getSpeed = function(start, end, txt, ignoreSpace=false) {
   const time = end - start;
@@ -73,6 +84,21 @@ const tajaKeyup = function(e) {
 
 const tajaKeypress = function(e) {
   
+}
+
+const layoutKeyPress = function(e) {
+  console.log(e.keyCode - 20)
+  const keyChar = currentLayout.layout[e.keyCode - 0x21];
+  console.log(keyChar)
+  if(keyChar == currentChar) {
+    nextChar();
+  }
+}
+
+const nextChar = function() {
+  // Temporary code : random chosung
+  currentChar = 0x1100 + Math.round(Math.random()*0x12);
+  document.getElementById("current-char").innerHTML = String.fromCharCode(currentChar);
 }
 
 const onNextLine = function() {
@@ -154,6 +180,23 @@ const loadText = function(txt) {
 const textLoad = function() {
   
   loadWebText('texts/aegukga.txt');
+  
+}
+
+const layoutLoad = function() {
+  
+  window.addEventListener('keypress', layoutKeyPress, true);
+  currentLayout = basic_layouts.find(o => o.type_name == kbdLayout);
+  
+  for(var i in currentLayout.layout) {
+    const keyCode = parseInt(i) + 0x21;
+    const keyName = 'kc_' + ((keyCode >= 0x41 && keyCode <= 0x5a || keyCode >= 0x61 && keyCode <= 0x7a) ? String.fromCharCode(keyCode) : keyCode.toString(16));
+    const key = document.getElementById(keyName);
+    if(key == undefined) continue;
+    key.innerHTML = String.fromCharCode(currentLayout.layout[i]);
+  }
+  
+  nextChar();
   
 }
 
@@ -314,3 +357,93 @@ const changeLayout = function() {
 document.addEventListener('keydown', tajaKeydown, false);
 document.addEventListener('keyup', tajaKeyup, false);
 document.addEventListener('keypress', tajaKeypress, false);
+
+  const getKeyName = function(keyCode) {
+    if(keyCode >= 65 && keyCode <= 90) return 'k_' + String.fromCharCode(keyCode + 0x20);
+    if(keyCode >= 48 && keyCode <= 57) return 'k_' + String.fromCharCode(keyCode);
+    name = 'k_';
+    switch(keyCode) {
+    case 8:
+      name += 'backspace';
+      break;
+    case 9:
+      name += 'tab';
+      break;
+    case 13:
+      name += 'return';
+      break;
+    case 16:
+      name += 'lshift k_rshift';
+      break;
+    case 17:
+      name += 'lcontrol k_rcontrol';
+      break;
+    case 18:
+      name += 'lalt k_ralt';
+      break;
+    case 20:
+      name += 'capslock';
+      break;
+    case 27:
+      name += 'esc';
+      break;
+    case 32:
+      name += 'space';
+      break;
+      
+    case 186:
+      name += 'semicolon';
+      break;
+    case 187:
+      name += 'equals';
+      break;
+    case 188:
+      name += 'comma';
+      break;
+    case 189:
+      name += 'minus';
+      break;
+    case 190:
+      name += 'period';
+      break;
+    case 191:
+      name += 'slash';
+      break;
+    case 192:
+      name += 'grave';
+      break;
+    case 219:
+      name += 'lbracket';
+      break;
+    case 220:
+      name += 'backslash';
+      break;
+    case 221:
+      name += 'rbracket';
+      break;
+    case 222:
+      name += 'quote';
+      break;
+    }
+    return name;
+  };
+  window.addEventListener('keydown', function(e) {
+    var names = getKeyName(e.keyCode).split(' ');
+    for(var i in names) {
+      var key = document.getElementById(names[i]);
+      if(key == undefined) continue;
+      key.classList.add('hover');
+    }
+  });
+  window.addEventListener('keyup', function(e) {
+    var names = getKeyName(e.keyCode).split(' ');
+    for(var i in names) {
+      var key = document.getElementById(names[i]);
+      if(key == undefined) continue;
+      key.classList.remove('hover');
+    }
+  });
+
+const layoutLevels = [
+  
+];

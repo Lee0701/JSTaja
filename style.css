@@ -39,3 +39,84 @@ textarea.practice-input {
 	background-color: black;
 	color: white;
 }
+
+div.chars {
+	display: flex;
+	justify-content: center;
+}
+
+div.chars-char {
+	font-size: 20pt;
+}
+
+#current-char {
+	font-size: 30pt;
+	font-weight: bold;
+}
+
+.keyboard {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 20px;
+}
+
+.keyboard_row {
+	display: flex;
+	height: 50px;
+	margin: 0px;
+	padding: 4px;
+}
+
+.keyboard_key {
+	display: table-cell;
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
+	border-radius: 2px;
+	margin: 2px;
+	transition: background 0.5s;
+	
+	text-align: center;
+}
+
+.keyboard_key.hover {
+	background: skyblue;
+	transition: none;
+}
+
+.keyboard_key_up {
+	
+}
+.keyboard_key_down {
+	
+}
+
+.keyboard_key_left {
+	float: left;
+}
+.keyboard_key_right {
+	float: right;
+}
+
+.modifier {
+	display: table-cell;
+	background: lightgrey;
+	vertical-align: middle;
+}
+
+.xend {
+	flex: 1;
+}
+
+.x1_25 {
+	width: 62.5px;
+}
+.x1_5 {
+	width: 75px;
+}
+.x2 {
+	width: 100px;
+}
+.x2_5 {
+	width: 125px;
+}

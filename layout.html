@@ -1,0 +1,254 @@
+<html>
+<head>
+	<script type="text/javascript">
+		var kbdLayout;
+		if(typeof(Storage) !== "undefined") {
+			kbdLayout = localStorage.getItem("taja_layout");
+			if(kbdLayout == "undefined") kbdLayout = "2-KSX5002";
+		}
+		Ko_type = kbdLayout;  // 한글 자판 (두벌식 표준)
+		En_type = "QWERTY";  // 영문 자판 (쿼티)
+		ohi_KBD_type = "QWERTY";  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
+		ohi_KE = "Ko";  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
+	</script>
+	<script src="additional_layouts.js"> </script>
+	<script src="ohi.js"> </script>
+	
+	<script src="taja.js"></script>
+	
+	<script>
+		
+		window.addEventListener('load', layoutLoad);
+	</script>
+	
+	<link rel="stylesheet" href="style.css">
+	
+</head>
+<body>
+	<div class="container">
+		<h2 class="title">JS 타자연습</h2>
+		<div class="powered">powered by ohi.pat.im</div>
+		<div class="layout-practice">
+			<div class="chars">
+				<div class="chars-char" id="current-char"></div>
+			</div>
+			<div class="keyboard">
+				<div class="keyboard_row">
+					<div class="keyboard_key modifier" id="k_grave">
+						<div class="keyboard_key_up" id="kc_7e"></div>
+						<div class="keyboard_key_down" id="kc_60"></div>
+					</div>
+					<div class="keyboard_key" id="k_1">
+						<div class="keyboard_key_up" id="kc_21"></div>
+						<div class="keyboard_key_down" id="kc_31"></div>
+					</div>
+					<div class="keyboard_key" id="k_2">
+						<div class="keyboard_key_up" id="kc_40"></div>
+						<div class="keyboard_key_down" id="kc_32"></div>
+					</div>
+					<div class="keyboard_key" id="k_3">
+						<div class="keyboard_key_up" id="kc_23"></div>
+						<div class="keyboard_key_down" id="kc_33"></div>
+					</div>
+					<div class="keyboard_key" id="k_4">
+						<div class="keyboard_key_up" id="kc_24"></div>
+						<div class="keyboard_key_down" id="kc_34"></div>
+					</div>
+					<div class="keyboard_key" id="k_5">
+						<div class="keyboard_key_up" id="kc_25"></div>
+						<div class="keyboard_key_down" id="kc_35"></div>
+					</div>
+					<div class="keyboard_key" id="k_6">
+						<div class="keyboard_key_up" id="kc_5e"></div>
+						<div class="keyboard_key_down" id="kc_36"></div>
+					</div>
+					<div class="keyboard_key" id="k_7">
+						<div class="keyboard_key_up" id="kc_26"></div>
+						<div class="keyboard_key_down" id="kc_37"></div>
+					</div>
+					<div class="keyboard_key" id="k_8">
+						<div class="keyboard_key_up" id="kc_2a"></div>
+						<div class="keyboard_key_down" id="kc_38"></div>
+					</div>
+					<div class="keyboard_key" id="k_9">
+						<div class="keyboard_key_up" id="kc_28"></div>
+						<div class="keyboard_key_down" id="kc_39"></div>
+					</div>
+					<div class="keyboard_key" id="k_0">
+						<div class="keyboard_key_up" id="kc_29"></div>
+						<div class="keyboard_key_down" id="kc_30"></div>
+					</div>
+					<div class="keyboard_key" id="k_minus">
+						<div class="keyboard_key_up" id="kc_5f"></div>
+						<div class="keyboard_key_down" id="kc_2d"></div>
+					</div>
+					<div class="keyboard_key" id="k_equals">
+						<div class="keyboard_key_up" id="kc_2b"></div>
+						<div class="keyboard_key_down" id="kc_3d"></div>
+					</div>
+					<div class="keyboard_key x2 modifier" id="k_backspace">←</div>
+				</div>
+				<div class="keyboard_row">
+					<div class="keyboard_key x1_5 modifier" id="k_tab">Tab</div>
+					<div class="keyboard_key" id="k_q">
+						<div class="keyboard_key_up" id="kc_Q"></div>
+						<div class="keyboard_key_down" id="kc_q"></div>
+					</div>
+					<div class="keyboard_key" id="k_w">
+						<div class="keyboard_key_up" id="kc_W"></div>
+						<div class="keyboard_key_down" id="kc_w"></div>
+					</div>
+					<div class="keyboard_key" id="k_e">
+						<div class="keyboard_key_up" id="kc_E"></div>
+						<div class="keyboard_key_down" id="kc_e"></div>
+					</div>
+					<div class="keyboard_key" id="k_r">
+						<div class="keyboard_key_up" id="kc_R"></div>
+						<div class="keyboard_key_down" id="kc_r"></div>
+					</div>
+					<div class="keyboard_key" id="k_t">
+						<div class="keyboard_key_up" id="kc_T"></div>
+						<div class="keyboard_key_down" id="kc_t"></div>
+					</div>
+					<div class="keyboard_key" id="k_y">
+						<div class="keyboard_key_up" id="kc_Y"></div>
+						<div class="keyboard_key_down" id="kc_y"></div>
+					</div>
+					<div class="keyboard_key" id="k_u">
+						<div class="keyboard_key_up" id="kc_U"></div>
+						<div class="keyboard_key_down" id="kc_u"></div>
+					</div>
+					<div class="keyboard_key" id="k_i">
+						<div class="keyboard_key_up" id="kc_I"></div>
+						<div class="keyboard_key_down" id="kc_i"></div>
+					</div>
+					<div class="keyboard_key" id="k_o">
+						<div class="keyboard_key_up" id="kc_O"></div>
+						<div class="keyboard_key_down" id="kc_o"></div>
+					</div>
+					<div class="keyboard_key" id="k_p">
+						<div class="keyboard_key_up" id="kc_P"></div>
+						<div class="keyboard_key_down" id="kc_p"></div>
+					</div>
+					<div class="keyboard_key" id="k_lbracket">
+						<div class="keyboard_key_up" id="kc_7b"></div>
+						<div class="keyboard_key_down" id="kc_5b"></div>
+					</div>
+					<div class="keyboard_key" id="k_rbracket">
+						<div class="keyboard_key_up" id="kc_7d"></div>
+						<div class="keyboard_key_down" id="kc_5d"></div>
+					</div>
+					<div class="keyboard_key xend" id="k_backslash">
+						<div class="keyboard_key_up" id="kc_7c"></div>
+						<div class="keyboard_key_down" id="kc_5c"></div>
+					</div>
+				</div>
+				<div class="keyboard_row">
+					<div class="keyboard_key x2 modifier" id="k_capslock">Caps</div>
+					<div class="keyboard_key" id="k_a">
+						<div class="keyboard_key_up" id="kc_A"></div>
+						<div class="keyboard_key_down" id="kc_a"></div>
+					</div>
+					<div class="keyboard_key" id="k_s">
+						<div class="keyboard_key_up" id="kc_S"></div>
+						<div class="keyboard_key_down" id="kc_s"></div>
+					</div>
+					<div class="keyboard_key" id="k_d">
+						<div class="keyboard_key_up" id="kc_D"></div>
+						<div class="keyboard_key_down" id="kc_d"></div>
+					</div>
+					<div class="keyboard_key" id="k_f">
+						<div class="keyboard_key_up" id="kc_F"></div>
+						<div class="keyboard_key_down" id="kc_f"></div>
+					</div>
+					<div class="keyboard_key" id="k_g">
+						<div class="keyboard_key_up" id="kc_G"></div>
+						<div class="keyboard_key_down" id="kc_g"></div>
+					</div>
+					<div class="keyboard_key" id="k_h">
+						<div class="keyboard_key_up" id="kc_H"></div>
+						<div class="keyboard_key_down" id="kc_h"></div>
+					</div>
+					<div class="keyboard_key" id="k_j">
+						<div class="keyboard_key_up" id="kc_J"></div>
+						<div class="keyboard_key_down" id="kc_j"></div>
+					</div>
+					<div class="keyboard_key" id="k_k">
+						<div class="keyboard_key_up" id="kc_K"></div>
+						<div class="keyboard_key_down" id="kc_k"></div>
+					</div>
+					<div class="keyboard_key" id="k_l">
+						<div class="keyboard_key_up" id="kc_L"></div>
+						<div class="keyboard_key_down" id="kc_l"></div>
+					</div>
+					<div class="keyboard_key" id="k_semicolon">
+						<div class="keyboard_key_up" id="kc_3a"></div>
+						<div class="keyboard_key_down" id="kc_3b"></div>
+					</div>
+					<div class="keyboard_key" id="k_quote">
+						<div class="keyboard_key_up" id="kc_22"></div>
+						<div class="keyboard_key_down" id="kc_27"></div>
+					</div>
+					<div class="keyboard_key xend modifier" id="k_return">Return</div>
+				</div>
+				<div class="keyboard_row">
+					<div class="keyboard_key x2_5 modifier" id="k_lshift">Shift</div>
+					<div class="keyboard_key" id="k_z">
+						<div class="keyboard_key_up" id="kc_Z"></div>
+						<div class="keyboard_key_down" id="kc_z"></div>
+					</div>
+					<div class="keyboard_key" id="k_x">
+						<div class="keyboard_key_up" id="kc_X"></div>
+						<div class="keyboard_key_down" id="kc_x"></div>
+					</div>
+					<div class="keyboard_key" id="k_c">
+						<div class="keyboard_key_up" id="kc_C"></div>
+						<div class="keyboard_key_down" id="kc_c"></div>
+					</div>
+					<div class="keyboard_key" id="k_v">
+						<div class="keyboard_key_up" id="kc_V"></div>
+						<div class="keyboard_key_down" id="kc_v"></div>
+					</div>
+					<div class="keyboard_key" id="k_b">
+						<div class="keyboard_key_up" id="kc_B"></div>
+						<div class="keyboard_key_down" id="kc_b"></div>
+					</div>
+					<div class="keyboard_key" id="k_n">
+						<div class="keyboard_key_up" id="kc_N"></div>
+						<div class="keyboard_key_down" id="kc_n"></div>
+					</div>
+					<div class="keyboard_key" id="k_m">
+						<div class="keyboard_key_up" id="kc_M"></div>
+						<div class="keyboard_key_down" id="kc_m"></div>
+					</div>
+					<div class="keyboard_key" id="k_comma">
+						<div class="keyboard_key_up" id="kc_3c"></div>
+						<div class="keyboard_key_down" id="kc_2c"></div>
+					</div>
+					<div class="keyboard_key" id="k_period">
+						<div class="keyboard_key_up" id="kc_3e"></div>
+						<div class="keyboard_key_down" id="kc_2e"></div>
+					</div>
+					<div class="keyboard_key" id="k_slash">
+						<div class="keyboard_key_up" id="kc_3f"></div>
+						<div class="keyboard_key_down" id="kc_2f"></div>
+					</div>
+					<div class="keyboard_key xend modifier" id="k_rshift">Shift</div>
+				</div>
+				<div class="keyboard_row">
+					<div class="keyboard_key x1_25 modifier" id="k_lcontrol">Control</div>
+					<div class="keyboard_key x1_25 modifier" id="k_lsuper">Super</div>
+					<div class="keyboard_key x1_25 modifier" id="k_lalt">Alt</div>
+					<div class="keyboard_key xend" id="k_space"></div>
+					<div class="keyboard_key x1_25 modifier" id="k_ralt">Alt</div>
+					<div class="keyboard_key x1_25 modifier" id="k_rsuper">Super</div>
+					<div class="keyboard_key x1_25 modifier" id="k_context">Context</div>
+					<div class="keyboard_key x1_25 modifier" id="k_rcontrol">Control</div>
+				</div>
+			</div>
+		</div>
+		<div class="practice-info" id="practice-info"></div>
+		
+	</div>
+</body>
+</html>
