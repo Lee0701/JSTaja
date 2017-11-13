@@ -52,11 +52,13 @@ div.chars-char {
 #current-char {
 	font-size: 50pt;
 	font-weight: bold;
+	text-decoration: underline;
 }
 
 #next-chars {
 	margin-left: 20px;
 	letter-spacing: 10px;
+	text-decoration: underline;
 }
 
 .keyboard {
