@@ -21,6 +21,8 @@ var currentChar;
 var nextChars;
 
 var currentLayout;
+var currentLevel;
+var containLowerLevels;
 
 //
 
@@ -87,9 +89,7 @@ const tajaKeypress = function(e) {
 }
 
 const layoutKeyPress = function(e) {
-  console.log(e.keyCode - 20)
   const keyChar = currentLayout.layout[e.keyCode - 0x21];
-  console.log(keyChar)
   if(keyChar == currentChar) {
     nextChar();
   }
@@ -100,11 +100,21 @@ const nextChar = function() {
   currentChar = nextChars.shift();
   nextChars.push(getNextChar());
   document.getElementById("current-char").innerHTML = String.fromCharCode(currentChar);
-  document.getElementById("next-chars").innerHTML = String.fromCharCode.apply(null, nextChars);
+  var txt = '';
+  for(var i in nextChars) {
+    txt += ' ' + String.fromCharCode(nextChars[i]);
+  }
+  document.getElementById("next-chars").innerHTML = txt;
 }
 
 const getNextChar = function() {
-  return 0x1100 + Math.round(Math.random()*0x12);
+  var items;
+  if(containLowerLevels) {
+    items = [].concat.apply([], layoutLevels.slice(0, currentLevel));
+  } else {
+    items = layoutLevels[currentLevel-1];
+  }
+  return currentLayout.layout[items[Math.floor(Math.random()*items.length)] - 0x21];
 }
 
 const onNextLine = function() {
@@ -201,6 +211,9 @@ const layoutLoad = function() {
     if(key == undefined) continue;
     key.innerHTML = String.fromCharCode(currentLayout.layout[i]);
   }
+  
+  currentLevel = 7;
+  containLowerLevels = true;
   
   nextChars = [];
   for(var i = 0 ; i < 4 ; i++) nextChars[i] = getNextChar();
@@ -454,5 +467,11 @@ document.addEventListener('keypress', tajaKeypress, false);
   });
 
 const layoutLevels = [
-  
+  [97, 115, 100, 102, 106, 107, 108, 59],
+  [113, 119, 101, 114, 116],
+  [121, 117, 105, 111, 112],
+  [122, 120, 99, 118, 98, 103],
+  [104, 110, 109, 47, 39],
+  [49, 50, 51, 52, 53, 54],
+  [55, 56, 57, 48]
 ];
