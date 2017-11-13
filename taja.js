@@ -475,3 +475,8 @@ const layoutLevels = [
   [49, 50, 51, 52, 53, 54],
   [55, 56, 57, 48]
 ];
+
+const changeLevel = function() {
+  currentLevel = document.getElementById("level-select").value;
+  containLowerLevels = document.getElementById("contain-lower-levels").value;
+}
