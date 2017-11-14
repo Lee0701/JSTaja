@@ -97,7 +97,8 @@ const layoutKeyPress = function(e) {
 
 const nextChar = function() {
   if(currentChar != undefined) {
-    const names = getKeyName(getKeyCode(currentChar)).split(' ');
+    console.log(currentChar)
+    const names = getCharName(currentChar).split(' ');
     for(var i in names) {
         var key = document.getElementById(names[i]);
         if(key == undefined) continue;
@@ -113,7 +114,7 @@ const nextChar = function() {
     txt += ' ' + String.fromCharCode(currentLayout.layout[nextChars[i] - 0x21]);
   }
   document.getElementById("next-chars").innerHTML = txt;
-  const names = getKeyName(getKeyCode(currentChar)).split(' ');
+  const names = getCharName(currentChar).split(' ');
   for(var i in names) {
     var key = document.getElementById(names[i]);
     if(key == undefined) continue;
@@ -394,108 +395,125 @@ document.addEventListener('keydown', tajaKeydown, false);
 document.addEventListener('keyup', tajaKeyup, false);
 document.addEventListener('keypress', tajaKeypress, false);
 
-const getKeyCode = function(keyChar) {
-  if(keyChar >= 65 && keyChar <= 90) return keyChar;
-  if(keyChar >= 97 && keyChar <= 122) return keyChar;
-  if(keyChar >= 48 && keyChar <= 57) return keyChar;
+const getCharName = function(keyChar) {
+  if(keyChar >= 65 && keyChar <= 90) return 'k_lshift k_rshift k_' + String.fromCharCode(keyChar + 0x20);
+  if(keyChar >= 97 && keyChar <= 122) return 'k_' + String.fromCharCode(keyChar);
+  if(keyChar >= 48 && keyChar <= 57) return 'k_' + String.fromCharCode(keyChar);
   switch(keyChar) {
+    case 0x21:
+      return 'k_lshift k_rshift k_1';
+    case 0x40:
+      return 'k_lshift k_rshift k_2';
+    case 0x23:
+      return 'k_lshift k_rshift k_3';
+    case 0x24:
+      return 'k_lshift k_rshift k_4';
+    case 0x25:
+      return 'k_lshift k_rshift k_5';
+    case 0x5e:
+      return 'k_lshift k_rshift k_6';
+    case 0x26:
+      return 'k_lshift k_rshift k_7';
+    case 0x28:
+      return 'k_lshift k_rshift k_8';
+    case 0x29:
+      return 'k_lshift k_rshift k_9';
     case 59:
-      return 186;
+      return 'k_semicolon';
     case 61:
-      return 187;
+      return 'k_equals';
     case 44:
-      return 188;
+      return 'k_comma';
     case 45:
-      return 189;
+      return 'k_minus';
     case 46:
-      return 190;
+      return 'k_period';
     case 47:
-      return 191;
+      return 'k_slash';
     case 96:
-      return 192;
+      return 'k_grave';
     case 91:
-      return 219;
+      return 'k_lbracket';
     case 92:
-      return 220;
+      return 'k_backslash';
     case 93:
-      return 221;
+      return 'k_rbracket';
     case 39:
-      return 222;
+      return 'k_quote';
   }
 }
 
-  const getKeyName = function(keyCode) {
-    if(keyCode >= 65 && keyCode <= 90) return 'k_lshift k_rshift k_' + String.fromCharCode(keyCode + 0x20);
-    if(keyCode >= 97 && keyCode <= 122) return 'k_' + String.fromCharCode(keyCode);
-    if(keyCode >= 48 && keyCode <= 57) return 'k_' + String.fromCharCode(keyCode);
-    name = 'k_';
-    switch(keyCode) {
-    case 8:
-      name += 'backspace';
-      break;
-    case 9:
-      name += 'tab';
-      break;
-    case 13:
-      name += 'return';
-      break;
-    case 16:
-      name += 'lshift k_rshift';
-      break;
-    case 17:
-      name += 'lcontrol k_rcontrol';
-      break;
-    case 18:
-      name += 'lalt k_ralt';
-      break;
-    case 20:
-      name += 'capslock';
-      break;
-    case 27:
-      name += 'esc';
-      break;
-    case 32:
-      name += 'space';
-      break;
-      
-    case 186:
-      name += 'semicolon';
-      break;
-    case 187:
-      name += 'equals';
-      break;
-    case 188:
-      name += 'comma';
-      break;
-    case 189:
-      name += 'minus';
-      break;
-    case 190:
-      name += 'period';
-      break;
-    case 191:
-      name += 'slash';
-      break;
-    case 192:
-      name += 'grave';
-      break;
-    case 219:
-      name += 'lbracket';
-      break;
-    case 220:
-      name += 'backslash';
-      break;
-    case 221:
-      name += 'rbracket';
-      break;
-    case 222:
-      name += 'quote';
-      break;
-    }
-    return name;
-  };
+const getKeyName = function(keyCode) {
+  if(keyCode >= 65 && keyCode <= 90) return 'k_' + String.fromCharCode(keyCode + 0x20);
+  if(keyCode >= 97 && keyCode <= 122) return 'k_' + String.fromCharCode(keyCode);
+  if(keyCode >= 48 && keyCode <= 57) return 'k_' + String.fromCharCode(keyCode);
+  name = 'k_';
+  switch(keyCode) {
+  case 8:
+    name += 'backspace';
+    break;
+  case 9:
+    name += 'tab';
+    break;
+  case 13:
+    name += 'return';
+    break;
+  case 16:
+    name += 'lshift k_rshift';
+    break;
+  case 17:
+    name += 'lcontrol k_rcontrol';
+    break;
+  case 18:
+    name += 'lalt k_ralt';
+    break;
+  case 20:
+    name += 'capslock';
+    break;
+  case 27:
+    name += 'esc';
+    break;
+  case 32:
+    name += 'space';
+    break;
+    
+  case 186:
+    name += 'semicolon';
+    break;
+  case 187:
+    name += 'equals';
+    break;
+  case 188:
+    name += 'comma';
+    break;
+  case 189:
+    name += 'minus';
+    break;
+  case 190:
+    name += 'period';
+    break;
+  case 191:
+    name += 'slash';
+    break;
+  case 192:
+    name += 'grave';
+    break;
+  case 219:
+    name += 'lbracket';
+    break;
+  case 220:
+    name += 'backslash';
+    break;
+  case 221:
+    name += 'rbracket';
+    break;
+  case 222:
+    name += 'quote';
+    break;
+  }
+  return name;
+};
   window.addEventListener('keydown', function(e) {
-    console.log(e.keyCode);
     var names = getKeyName(e.keyCode).split(' ');
     for(var i in names) {
       var key = document.getElementById(names[i]);
