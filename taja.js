@@ -99,7 +99,8 @@ const nextChar = function() {
   if(currentChar != undefined) document.getElementById(getKeyName(getKeyCode(currentChar))).classList.remove('next');
   currentChar = nextChars.shift();
   nextChars.push(getNextChar());
-  document.getElementById("current-char").innerHTML = String.fromCharCode(currentLayout.layout[currentChar - 0x21]);
+  const hangulChar = currentLayout.layout[currentChar - 0x21];
+  document.getElementById("current-char").innerHTML = String.fromCharCode(hangulChar) + ((hangulChar >= 0x1100 && hangulChar <= 0x1112) ? "(초)" : (hangulChar >= 0x1161 && hangulChar <= 0x1175) ? "(중)" : (hangulChar >= 0x11a8 && hangulChar <= 0x11c2) ? "(종)" : "");
   var txt = '';
   for(var i in nextChars) {
     txt += ' ' + String.fromCharCode(currentLayout.layout[nextChars[i] - 0x21]);
