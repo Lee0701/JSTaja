@@ -85,6 +85,11 @@ div.chars-char {
 	text-align: center;
 }
 
+.keyboard_key.next {
+	background: orange;
+	transition: none;
+}
+
 .keyboard_key.hover {
 	background: skyblue;
 	transition: none;

@@ -90,21 +90,22 @@ const tajaKeypress = function(e) {
 
 const layoutKeyPress = function(e) {
   const keyChar = currentLayout.layout[e.keyCode - 0x21];
-  if(keyChar == currentChar) {
+  if(keyChar == currentLayout.layout[currentChar - 0x21]) {
     nextChar();
   }
 }
 
 const nextChar = function() {
-  // Temporary code : random chosung
+  if(currentChar != undefined) document.getElementById(getKeyName(getKeyCode(currentChar))).classList.remove('next');
   currentChar = nextChars.shift();
   nextChars.push(getNextChar());
-  document.getElementById("current-char").innerHTML = String.fromCharCode(currentChar);
+  document.getElementById("current-char").innerHTML = String.fromCharCode(currentLayout.layout[currentChar - 0x21]);
   var txt = '';
   for(var i in nextChars) {
-    txt += ' ' + String.fromCharCode(nextChars[i]);
+    txt += ' ' + String.fromCharCode(currentLayout.layout[nextChars[i] - 0x21]);
   }
   document.getElementById("next-chars").innerHTML = txt;
+  document.getElementById(getKeyName(getKeyCode(currentChar))).classList.add('next');
 }
 
 const getNextChar = function() {
@@ -114,7 +115,7 @@ const getNextChar = function() {
   } else {
     items = layoutLevels[currentLevel-1];
   }
-  return currentLayout.layout[items[Math.floor(Math.random()*items.length)] - 0x21];
+  return items[Math.floor(Math.random()*items.length)];
 }
 
 const onNextLine = function() {
@@ -380,8 +381,39 @@ document.addEventListener('keydown', tajaKeydown, false);
 document.addEventListener('keyup', tajaKeyup, false);
 document.addEventListener('keypress', tajaKeypress, false);
 
+const getKeyCode = function(keyChar) {
+  if(keyChar >= 65 && keyChar <= 90) return keyChar + 0x20;
+  if(keyChar >= 97 && keyChar <= 122) return keyChar;
+  if(keyChar >= 48 && keyChar <= 57) return keyChar;
+  switch(keyChar) {
+    case 59:
+      return 186;
+    case 61:
+      return 187;
+    case 44:
+      return 188;
+    case 45:
+      return 189;
+    case 46:
+      return 190;
+    case 47:
+      return 191;
+    case 96:
+      return 192;
+    case 91:
+      return 219;
+    case 92:
+      return 220;
+    case 93:
+      return 221;
+    case 39:
+      return 222;
+  }
+}
+
   const getKeyName = function(keyCode) {
     if(keyCode >= 65 && keyCode <= 90) return 'k_' + String.fromCharCode(keyCode + 0x20);
+    if(keyCode >= 97 && keyCode <= 122) return 'k_' + String.fromCharCode(keyCode);
     if(keyCode >= 48 && keyCode <= 57) return 'k_' + String.fromCharCode(keyCode);
     name = 'k_';
     switch(keyCode) {
