@@ -230,6 +230,11 @@ const layoutLoad = function() {
     key.innerHTML = String.fromCharCode(currentLayout.layout[i]);
   }
   
+  if(!layoutLevels[currentLayout.type_name]) {
+    alert("현재 " + currentLayout.full_name + " 배열은 자리연습을 지원하지 않습니다.");
+    location.href = '/settings.html';
+  }
+  
   currentLevels = layoutLevels[currentLayout.type_name].levels;
   
   const levelSelect = document.getElementById('level-select');
