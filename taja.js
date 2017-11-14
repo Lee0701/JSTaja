@@ -613,4 +613,10 @@ const changeLevel = function() {
   currentLevel = document.getElementById("level-select").value;
   containLowerLevels = document.getElementById("contain-lower-levels").checked;
   showKeyboardHint = document.getElementById("show-keyboard-hint").checked;
+  
+  nextChars = [];
+  for(var i = 0 ; i < 4 ; i++) nextChars[i] = getNextChar();
+  
+  nextChar();
+  
 }
