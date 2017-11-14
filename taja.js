@@ -96,7 +96,14 @@ const layoutKeyPress = function(e) {
 }
 
 const nextChar = function() {
-  if(currentChar != undefined) document.getElementById(getKeyName(getKeyCode(currentChar))).classList.remove('next');
+  if(currentChar != undefined) {
+    const names = getKeyName(getKeyCode(currentChar)).split(' ');
+    for(var i in names) {
+        var key = document.getElementById(names[i]);
+        if(key == undefined) continue;
+        key.classList.remove('next');
+    }
+  }
   currentChar = nextChars.shift();
   nextChars.push(getNextChar());
   const hangulChar = currentLayout.layout[currentChar - 0x21];
@@ -106,7 +113,12 @@ const nextChar = function() {
     txt += ' ' + String.fromCharCode(currentLayout.layout[nextChars[i] - 0x21]);
   }
   document.getElementById("next-chars").innerHTML = txt;
-  document.getElementById(getKeyName(getKeyCode(currentChar))).classList.add('next');
+  const names = getKeyName(getKeyCode(currentChar)).split(' ');
+  for(var i in names) {
+    var key = document.getElementById(names[i]);
+    if(key == undefined) continue;
+    key.classList.add('next');
+  }
 }
 
 const getNextChar = function() {
@@ -383,7 +395,7 @@ document.addEventListener('keyup', tajaKeyup, false);
 document.addEventListener('keypress', tajaKeypress, false);
 
 const getKeyCode = function(keyChar) {
-  if(keyChar >= 65 && keyChar <= 90) return keyChar + 0x20;
+  if(keyChar >= 65 && keyChar <= 90) return keyChar;
   if(keyChar >= 97 && keyChar <= 122) return keyChar;
   if(keyChar >= 48 && keyChar <= 57) return keyChar;
   switch(keyChar) {
@@ -413,7 +425,7 @@ const getKeyCode = function(keyChar) {
 }
 
   const getKeyName = function(keyCode) {
-    if(keyCode >= 65 && keyCode <= 90) return 'k_' + String.fromCharCode(keyCode + 0x20);
+    if(keyCode >= 65 && keyCode <= 90) return 'k_lshift k_rshift k_' + String.fromCharCode(keyCode + 0x20);
     if(keyCode >= 97 && keyCode <= 122) return 'k_' + String.fromCharCode(keyCode);
     if(keyCode >= 48 && keyCode <= 57) return 'k_' + String.fromCharCode(keyCode);
     name = 'k_';
@@ -483,6 +495,7 @@ const getKeyCode = function(keyChar) {
     return name;
   };
   window.addEventListener('keydown', function(e) {
+    console.log(e.keyCode);
     var names = getKeyName(e.keyCode).split(' ');
     for(var i in names) {
       var key = document.getElementById(names[i]);
@@ -503,7 +516,7 @@ const layoutLevels = [
   [97, 115, 100, 102, 106, 107, 108, 59],
   [113, 119, 101, 114, 116],
   [121, 117, 105, 111, 112],
-  [122, 120, 99, 118, 98, 103],
+  [122, 120, 99, 118, 98, 103, 71],
   [104, 110, 109, 47, 39],
   [49, 50, 51, 52, 53, 54],
   [55, 56, 57, 48]
