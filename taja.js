@@ -20,6 +20,9 @@ var startTime;
 var currentChar;
 var nextChars;
 
+var correctCharCount;
+var wrongCharCount;
+
 var currentLayout;
 var currentLevels;
 var currentLevel;
@@ -94,7 +97,11 @@ const layoutKeyPress = function(e) {
   const keyChar = currentLayout.layout[e.keyCode - 0x21];
   if(keyChar == currentLayout.layout[currentChar - 0x21]) {
     nextChar();
+    correctCharCount++;
+  } else if(keyChar) {
+    wrongCharCount++;
   }
+  updateLayoutPracticeInfo();
 }
 
 const nextChar = function() {
@@ -245,8 +252,7 @@ const layoutLoad = function() {
     levelSelect.appendChild(item);
   }
   
-  currentLevel = 1;
-  containLowerLevels = false;
+  changeLevel();  
   
   nextChars = [];
   for(var i = 0 ; i < 4 ; i++) nextChars[i] = getNextChar();
@@ -622,5 +628,15 @@ const changeLevel = function() {
   for(var i = 0 ; i < 4 ; i++) nextChars[i] = getNextChar();
   
   nextChar();
+  
+  correctCharCount = 0;
+  wrongCharCount = 0;
+  
+  updateLayoutPracticeInfo();
+  
+}
+
+const updateLayoutPracticeInfo = function() {
+  document.getElementById("practice-info").innerHTML = "맞은 개수: " + correctCharCount + ", 틀린 개수: " + wrongCharCount;
   
 }
