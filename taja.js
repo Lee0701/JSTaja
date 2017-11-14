@@ -21,6 +21,7 @@ var currentChar;
 var nextChars;
 
 var currentLayout;
+var currentLevels;
 var currentLevel;
 var containLowerLevels;
 var showKeyboardHint;
@@ -127,9 +128,9 @@ const nextChar = function() {
 const getNextChar = function() {
   var items;
   if(containLowerLevels) {
-    items = [].concat.apply([], layoutLevels.slice(0, currentLevel));
+    items = [].concat.apply([], currentLevels.slice(0, currentLevel));
   } else {
-    items = layoutLevels[currentLevel-1];
+    items = currentLevels[currentLevel-1];
   }
   return items[Math.floor(Math.random()*items.length)];
 }
@@ -227,6 +228,16 @@ const layoutLoad = function() {
     const key = document.getElementById(keyName);
     if(key == undefined) continue;
     key.innerHTML = String.fromCharCode(currentLayout.layout[i]);
+  }
+  
+  currentLevels = layoutLevels[currentLayout.type_name].levels;
+  
+  const levelSelect = document.getElementById('level-select');
+  for(var i in layoutLevels[currentLayout.type_name].labels) {
+    const item = document.createElement("option");
+    item.value = parseInt(i)+1;
+    item.innerText = item.value + "단계: " + layoutLevels[currentLayout.type_name].labels[i];
+    levelSelect.appendChild(item);
   }
   
   currentLevel = 1;
@@ -556,7 +567,25 @@ const getKeyName = function(keyCode) {
     }
   });
 
-const layoutLevels = [
+const levels390 = [
+  [97, 115, 100, 102, 106, 107, 108, 59],
+  [113, 119, 101, 114, 116],
+  [121, 117, 105, 111, 112],
+  [122, 120, 99, 118, 98, 103, 82],
+  [104, 110, 109, 47, 39],
+  [49, 50, 51, 52, 53, 54],
+  [55, 56, 57, 48],
+  [33, 81, 87, 65, 83, 90, 88],
+  [69, 68, 70, 67, 86],
+  [78, 77, 60, 62, 74, 75, 76, 85, 73, 79],
+  [84, 89, 80, 71, 72, 58, 34, 66, 63]
+]
+
+const levelLabels390 = [
+  "기본 자리", "왼손 윗자리", "오른손 윗자리", "왼손 아랫자리", "오른손 아랫자리", "왼손 맨윗자리", "오른손 맨윗자리", "윗글쇠 받침 1", "윗글쇠 받침 2", "숫자", "문장 부호 및 기호"
+];
+
+const levelsFinal = [
   [97, 115, 100, 102, 106, 107, 108, 59],
   [113, 119, 101, 114, 116],
   [121, 117, 105, 111, 112],
@@ -570,6 +599,15 @@ const layoutLevels = [
   [38, 42, 40, 95, 34, 66, 78, 77, 63],
   [96, 126, 94, 41, 91, 45, 93, 61, 124]
 ];
+
+const levelLabelsFinal = [
+  "기본 자리", "왼손 윗자리", "오른손 윗자리", "왼손 아랫자리", "오른손 아랫자리", "왼손 맨윗자리", "오른손 맨윗자리", "윗글쇠 받침 1", "윗글쇠 받침 2", "숫자", "문장 부호", "기호"
+];
+
+const layoutLevels = {
+}
+layoutLevels["3-90"] = {levels: levels390, labels: levelLabels390}
+ layoutLevels["3-91"] = {levels: levelsFinal, labels: levelLabelsFinal}
 
 const changeLevel = function() {
   currentLevel = document.getElementById("level-select").value;
