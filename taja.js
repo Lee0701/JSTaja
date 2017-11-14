@@ -97,7 +97,6 @@ const layoutKeyPress = function(e) {
 
 const nextChar = function() {
   if(currentChar != undefined) {
-    console.log(currentChar)
     const names = getCharName(currentChar).split(' ');
     for(var i in names) {
         var key = document.getElementById(names[i]);
@@ -414,10 +413,12 @@ const getCharName = function(keyChar) {
       return 'k_lshift k_rshift k_6';
     case 0x26:
       return 'k_lshift k_rshift k_7';
-    case 0x28:
+    case 0x2a:
       return 'k_lshift k_rshift k_8';
-    case 0x29:
+    case 0x28:
       return 'k_lshift k_rshift k_9';
+    case 0x29:
+      return 'k_lshift k_rshift k_0';
     case 59:
       return 'k_semicolon';
     case 61:
@@ -440,6 +441,24 @@ const getCharName = function(keyChar) {
       return 'k_rbracket';
     case 39:
       return 'k_quote';
+    case 58:
+      return 'k_lshift k_rshift k_semicolon';
+    case 34:
+      return 'k_lshift k_rshift k_quote';
+    case 60:
+      return 'k_lshift k_rshift k_comma';
+    case 62:
+      return 'k_lshift k_rshift k_period';
+    case 43:
+      return 'k_lshift k_rshift k_equals';
+    case 123:
+      return 'k_lshift k_rshift k_lbracket';
+    case 124:
+      return 'k_lshift k_rshift k_backslash';
+    case 125:
+      return 'k_lshift k_rshift k_rbracket';
+    case 126:
+      return 'k_lshift k_rshift k_grave';
   }
 }
 
@@ -537,7 +556,10 @@ const layoutLevels = [
   [122, 120, 99, 118, 98, 103, 71],
   [104, 110, 109, 47, 39],
   [49, 50, 51, 52, 53, 54],
-  [55, 56, 57, 48]
+  [55, 56, 57, 48],
+  [35, 81, 87, 82, 65, 83, 70, 90, 88],
+  [33, 64, 36, 37, 69, 84, 68, 67, 86],
+  [72, 74, 75, 76, 58, 89, 85, 73, 79, 80, 60, 62]
 ];
 
 const changeLevel = function() {
