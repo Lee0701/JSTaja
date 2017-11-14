@@ -487,7 +487,6 @@ const getCharName = function(keyChar) {
 
 const getKeyName = function(keyCode) {
   if(keyCode >= 65 && keyCode <= 90) return 'k_' + String.fromCharCode(keyCode + 0x20);
-  if(keyCode >= 97 && keyCode <= 122) return 'k_' + String.fromCharCode(keyCode);
   if(keyCode >= 48 && keyCode <= 57) return 'k_' + String.fromCharCode(keyCode);
   name = 'k_';
   switch(keyCode) {
