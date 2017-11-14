@@ -23,6 +23,7 @@ var nextChars;
 var currentLayout;
 var currentLevel;
 var containLowerLevels;
+var showKeyboardHint;
 
 //
 
@@ -96,7 +97,7 @@ const layoutKeyPress = function(e) {
 }
 
 const nextChar = function() {
-  if(currentChar != undefined) {
+  if(showKeyboardHint && currentChar != undefined) {
     const names = getCharName(currentChar).split(' ');
     for(var i in names) {
         var key = document.getElementById(names[i]);
@@ -113,11 +114,13 @@ const nextChar = function() {
     txt += ' ' + String.fromCharCode(currentLayout.layout[nextChars[i] - 0x21]);
   }
   document.getElementById("next-chars").innerHTML = txt;
-  const names = getCharName(currentChar).split(' ');
-  for(var i in names) {
-    var key = document.getElementById(names[i]);
-    if(key == undefined) continue;
-    key.classList.add('next');
+  if(showKeyboardHint) {
+    const names = getCharName(currentChar).split(' ');
+    for(var i in names) {
+      var key = document.getElementById(names[i]);
+      if(key == undefined) continue;
+      key.classList.add('next');
+    }
   }
 }
 
@@ -441,6 +444,8 @@ const getCharName = function(keyChar) {
       return 'k_rbracket';
     case 39:
       return 'k_quote';
+    case 47:
+      return 'k_slash';
     case 58:
       return 'k_lshift k_rshift k_semicolon';
     case 34:
@@ -459,6 +464,8 @@ const getCharName = function(keyChar) {
       return 'k_lshift k_rshift k_rbracket';
     case 126:
       return 'k_lshift k_rshift k_grave';
+    case 63:
+      return 'k_lshift k_rshift k_slash'
   }
 }
 
@@ -559,10 +566,13 @@ const layoutLevels = [
   [55, 56, 57, 48],
   [35, 81, 87, 82, 65, 83, 70, 90, 88],
   [33, 64, 36, 37, 69, 84, 68, 67, 86],
-  [72, 74, 75, 76, 58, 89, 85, 73, 79, 80, 60, 62]
+  [72, 74, 75, 76, 58, 89, 85, 73, 79, 80, 60, 62],
+  [38, 42, 40, 95, 34, 66, 78, 77, 63],
+  [96, 126, 94, 41, 91, 45, 93, 61, 124]
 ];
 
 const changeLevel = function() {
   currentLevel = document.getElementById("level-select").value;
   containLowerLevels = document.getElementById("contain-lower-levels").checked;
+  showKeyboardHint = document.getElementById("show-keyboard-hint").checked;
 }
