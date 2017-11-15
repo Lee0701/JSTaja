@@ -71,22 +71,25 @@ div.chars-char {
 }
 
 .keyboard {
-	display: inline-block;
+	flex: 100;
+	display: inline-block flex;
 	border: 1px solid black;
 	padding: 20px;
+	max-width: 70vw;
+	max-height: 50vh;
 }
 
 .keyboard_row {
+	flex: 1;
 	display: flex;
-	height: 50px;
 	margin: 0px;
 	padding: 4px;
 }
 
 .keyboard_key {
 	display: table-cell;
-	width: 50px;
-	height: 50px;
+	flex: 1;
+	min-height: 50px;
 	border: 1px solid black;
 	border-radius: 2px;
 	margin: 2px;
@@ -130,14 +133,21 @@ div.chars-char {
 }
 
 .x1_25 {
-	width: 62.5px;
+	flex: 1.25;
 }
 .x1_5 {
-	width: 75px;
+	flex: 1.5;
 }
 .x2 {
-	width: 100px;
+	flex: 2;
 }
 .x2_5 {
-	width: 125px;
+	flex: 2.5;
+}
+.x3 {
+	flex: 3;
+}
+
+#k_space {
+	flex: 5;
 }
