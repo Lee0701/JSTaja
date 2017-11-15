@@ -15,6 +15,9 @@ var practiceText;
 
 var startTime;
 
+var longText = false;
+var spacedEnd = false;
+
 // Layout Practice
 
 var currentChar;
@@ -167,6 +170,13 @@ const onNextLine = function() {
   }
 }
 
+const startSentencePractice = function() {
+  const textUrl = document.getElementById("text-url-input").value;
+  const spacedEnd = document.getElementById("spaced-end").checked;
+  const longText = document.getElementById("long-text").checked;
+  location.href = "text.html?" + "textUrl=" + encodeURIComponent(textUrl) + "&spacedEnd=" + encodeURIComponent(spacedEnd) + "&longText=" + encodeURIComponent(longText);
+}
+
 const tajaLoad = function() {
   input = document.getElementById("practice-input");
   input.addEventListener("focusout", focusOut);
@@ -220,7 +230,20 @@ const loadText = function(txt) {
 
 const textLoad = function() {
   
-  loadWebText('texts/aegukga.txt');
+  const textUrl = getParam('textUrl');
+  spacedEnd = getParam('spacedEnd') == 'true';
+  longText = getParam('longText') == 'true';
+  
+  if(textUrl == undefined) {
+    alert('오류가 발생했습니다. ERR_UNDEFINED_TEXT_URL');
+    location.href = 'index.html';
+  }
+  if(textUrl.length <= 0) {
+    alert('오류가 발생했습니다. ERR_NO_TEXT_URL');
+    location.href = 'index.html';
+  }
+  
+  loadWebText(textUrl);
   
 }
 
@@ -239,7 +262,7 @@ const layoutLoad = function() {
   
   if(!layoutLevels[currentLayout.type_name]) {
     alert("현재 " + currentLayout.full_name + " 배열은 자리연습을 지원하지 않습니다.");
-    location.href = '/settings.html';
+    location.href = 'settings.html';
   }
   
   currentLevels = layoutLevels[currentLayout.type_name].levels;
@@ -617,7 +640,7 @@ const levelLabelsFinal = [
 const layoutLevels = {
 }
 layoutLevels["3-90"] = {levels: levels390, labels: levelLabels390}
- layoutLevels["3-91"] = {levels: levelsFinal, labels: levelLabelsFinal}
+layoutLevels["3-91"] = {levels: levelsFinal, labels: levelLabelsFinal}
 
 const changeLevel = function() {
   currentLevel = document.getElementById("level-select").value;
@@ -638,5 +661,18 @@ const changeLevel = function() {
 
 const updateLayoutPracticeInfo = function() {
   document.getElementById("practice-info").innerHTML = "맞은 개수: " + correctCharCount + ", 틀린 개수: " + wrongCharCount;
-  
+}
+
+var getParam = function(param) {
+	var queryString = window.location.search.substring(1);
+	queryString = queryString.replace(/\+/g, "%20");
+	queryString = decodeURIComponent(queryString);
+	var queries = queryString.split("&");
+	for(var i in queries) {
+		var pair = queries[i].split("=");
+		if(pair[0] == param) {
+			return pair[1];
+		}
+	}
+	return null;
 }

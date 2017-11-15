@@ -2,6 +2,7 @@
 body {
 	border: 1px solid black;
 	padding: 15px;
+	overflow-y: hidden;
 }
 
 .powered {
