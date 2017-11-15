@@ -1,4 +1,9 @@
 
+body {
+	border: 1px solid black;
+	padding: 15px;
+}
+
 .powered {
 	float: right;
 }
@@ -58,6 +63,11 @@ div.chars-char {
 #next-chars {
 	margin-left: 20px;
 	text-decoration: underline;
+}
+
+.keyboard-wrapper {
+	display: flex;
+	justify-content: center;
 }
 
 .keyboard {
